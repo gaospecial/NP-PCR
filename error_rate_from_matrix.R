@@ -8,7 +8,6 @@
 #' ## Import, Transform and Tidy
 #' 
 library(tidyverse)
-library(ggpubr)
 library(ggsci)
 library(ggrepel)
 library(cowplot)
@@ -72,7 +71,6 @@ plots <- lapply(c("extaq","phusion"), function(x){
   ggplot(data, aes(nps,error_rate,color=nps)) + 
     geom_boxplot(show.legend = F) +
     geom_jitter(show.legend=F) + 
-    stat_compare_means(label = "p.signif",hide.ns = T,ref.group = "CK",show.legend = F,method = "t.test") +
     scale_x_discrete(labels=np_labels) +   
     scale_y_continuous(labels=fancy_scientific) +
     scale_color_manual(values = color_values,name="NPs") +
@@ -98,7 +96,6 @@ plots <- lapply(c("extaq","phusion"), function(x){
   ggplot(data,aes(nps,freq,color=nps)) + 
     geom_boxplot(show.legend=F,outlier.alpha = 0) + 
     geom_jitter(show.legend=F) + 
-    #stat_compare_means(label = "p.signif",hide.ns = T,ref.group = "CK",show.legend = F,method = "t.test") +
     facet_wrap(~snv,ncol=6)  + 
     scale_x_discrete(labels=np_labels) +
     scale_y_continuous(labels=fancy_scientific) +
