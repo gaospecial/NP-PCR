@@ -2,9 +2,6 @@
 title: "Statistics fact sheet"
 author: "Chun-Hui Gao"
 date: "`r Sys.Date()`"
-output:
-  word_document: default
-  html_document: default
 ---
 
 Statistics were performed maily with the `stats` and `rstatix` package in R version 3.5.3. First of all, we loaded the packages and the `tidyverse` package.
@@ -29,6 +26,7 @@ The following code block read in the result.
 results <- read_csv("data/RT-PCR_results.csv")
 results$nps <- factor(results$nps, levels = np_levels)
 ```
+
 
 Analysis then can be performed for Ex-taq or Phusion separately.
 
@@ -112,6 +110,21 @@ meta$nps <- factor(meta$nps, levels = np_levels)
 # join data
 error_rate <- left_join(error_rate,meta)
 ```
+
+
+First of all, we compared the error rate of normal PCR (CK+) between Ex taq and Phusion.
+
+```{r}
+data <- filter(error_rate, nps=="CK")
+aov <- aov(error_rate~enzyme,data)
+summary(aov)
+TukeyHSD(aov)
+
+# check normality
+car::leveneTest(error_rate~enzyme,data)
+shapiro.test(x=residuals(aov))
+```
+From the above results we can find the error rate are significant between enzymes in normal PCR.
 
 The analysis is similar to that has been mentioned on the above.
 

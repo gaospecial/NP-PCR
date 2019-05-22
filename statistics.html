@@ -11,7 +11,7 @@
 
 <meta name="author" content="Chun-Hui Gao" />
 
-<meta name="date" content="2019-05-15" />
+<meta name="date" content="2019-05-21" />
 
 <title>Statistics fact sheet</title>
 
@@ -377,7 +377,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Statistics fact sheet</h1>
 <h4 class="author">Chun-Hui Gao</h4>
-<h4 class="date">2019-05-15</h4>
+<h4 class="date">2019-05-21</h4>
 
 </div>
 
@@ -492,6 +492,39 @@ meta$nps &lt;- factor(meta$nps, levels = np_levels)
 
 # join data
 error_rate &lt;- left_join(error_rate,meta)</code></pre>
+<p>First of all, we compared the error rate of normal PCR (CK+) between Ex taq and Phusion.</p>
+<pre class="r"><code>data &lt;- filter(error_rate, nps==&quot;CK&quot;)
+aov &lt;- aov(error_rate~enzyme,data)
+summary(aov)</code></pre>
+<pre><code>##             Df    Sum Sq   Mean Sq F value   Pr(&gt;F)    
+## enzyme       1 5.388e-07 5.388e-07   93.81 0.000636 ***
+## Residuals    4 2.300e-08 5.700e-09                     
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>TukeyHSD(aov)</code></pre>
+<pre><code>##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = error_rate ~ enzyme, data = data)
+## 
+## $enzyme
+##                        diff           lwr           upr     p adj
+## phusion-extaq -0.0005993083 -0.0007711094 -0.0004275072 0.0006384</code></pre>
+<pre class="r"><code># check normality
+car::leveneTest(error_rate~enzyme,data)</code></pre>
+<pre><code>## Warning in leveneTest.default(y = y, group = group, ...): group coerced to
+## factor.</code></pre>
+<pre><code>## Levene&#39;s Test for Homogeneity of Variance (center = median)
+##       Df F value Pr(&gt;F)
+## group  1  0.6171 0.4761
+##        4</code></pre>
+<pre class="r"><code>shapiro.test(x=residuals(aov))</code></pre>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  residuals(aov)
+## W = 0.88689, p-value = 0.3022</code></pre>
+<p>From the above results we can find the error rate are significant between enzymes in normal PCR.</p>
 <p>The analysis is similar to that has been mentioned on the above.</p>
 <div id="fig.-4a-ex-taq" class="section level2">
 <h2>Fig. 4A Ex-taq</h2>
