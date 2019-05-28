@@ -96,21 +96,29 @@ plots <- lapply(c("extaq","phusion"), function(x){
   ggplot(data,aes(nps,freq,color=nps)) + 
     geom_boxplot(show.legend=F,outlier.alpha = 0) + 
     geom_jitter(show.legend=F) + 
-    facet_wrap(~snv,ncol=6)  + 
+    geom_text(aes(x="CK",y=max(freq)*1.1,label=paste("snv:",snv,sep=" ")),hjust=0,color="grey40",vjust=0.75,size=3) +
+    # facet_wrap(~snv,ncol=6)  + 
     scale_x_discrete(labels=np_labels) +
     scale_y_continuous(labels=fancy_scientific) +
     scale_color_manual(values = color_values,name="NPs") +
     labs(title=enzyme_labeller(x)) +
-    xlab("Nanoparticles") + ylab("Frequency of SNVs") +
+    xlab("") + ylab("Frequency of SNVs") +
     theme_bw() +
     theme(axis.text.x = element_text(angle = 45,vjust = 1,hjust = 1,face = 'bold.italic'),
           axis.line.x = element_blank(),
           axis.ticks.x=element_blank(),
           axis.title.y = element_text(margin = margin(t=0,r=15,b=0,l=0)),
+          strip.placement = "outside",
+          strip.text = element_text(face = "bold",hjust = 0),
           legend.text.align = 0) # 0-left,1-right
 })
 
 #' Put together
 #+ cowplot, fig.width=8,fig.asp=1
-plot_grid(plotlist = plots,ncol=1,align = "v",labels="AUTO")
+plots[[1]] <- plots[[1]] + facet_wrap(~snv,ncol=6,labeller = labeller(snv=function(x)paste(LETTERS[1:12])))
+plots[[2]] <- plots[[2]] + 
+  xlab("Nanoparticles") +
+  facet_wrap(~snv,ncol=6,labeller = labeller(snv=function(x)paste(LETTERS[13:24])))
+
+plot_grid(plotlist = plots,ncol=1,align = "v",labels="")
 ggsave("Figure 5.png",dpi = 300,path = "plots")
