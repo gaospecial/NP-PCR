@@ -1,0 +1,1 @@
+Filenames contains the run id, library name, and direction of reads. For example, D8j6215-NP56_R1.fq.gz has a run id of D8j6215, a library name of NP56, and read of R1. Refer to [meta.txt](../../data/meta.txt) for the meta data for each library.

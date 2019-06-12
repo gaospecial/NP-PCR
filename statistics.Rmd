@@ -49,7 +49,7 @@ TukeyHSD(aov)
 It can be seen from the output, that the difference between CK and Al~2~O~3~ is significant with an adjusted p-value of 0.046.
 
 
-The ANOVA test assumes that, the data are normally distributed and the variance across groups are homogeneous. It’s possible to use **Levene’s test** to check the homogeneity of variances. The function `leveneTest()` [in `car` package] will be used:
+The ANOVA test assumes that, the data are normally distributed and the variance across groups are homogeneous. It’s possible to use **Levene's test** to check the homogeneity of variances. The function `leveneTest()` [in `car` package] will be used:
 
 
 
